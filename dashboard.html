@@ -1,3 +1,182 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard — NEXORA Studio</title><link rel="stylesheet" href="styles.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script></head>
-<body><header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">N</span><span>NEXORA<span class="muted"> STUDIO</span></span></a><div class="user-actions"><span id="userEmail" class="muted-text"></span><button class="button button-ghost" id="logout">Sign out</button></div></header><main class="dash-wrap"><div class="section-kicker">YOUR WORKSPACE</div><h1 class="dash-title">Welcome to your studio<span class="gradient">.</span></h1><p class="muted-text">Choose a workspace to start planning your department’s look.</p><div class="studio-grid"><article class="studio-card"><div class="studio-icon">▤</div><div class="section-kicker">APPAREL DESIGN</div><h2>Uniform Studio</h2><p>Plan uniforms, role variations, department colors, and insignia placement.</p><span class="coming">DESIGN EDITOR — COMING NEXT</span></article><article class="studio-card"><div class="studio-icon">▰</div><div class="section-kicker">FLEET DESIGN</div><h2>Livery Studio</h2><p>Plan vehicle markings, fleet color schemes, unit identifiers, and layouts.</p><span class="coming">DESIGN EDITOR — COMING NEXT</span></article><article class="studio-card library-card"><div class="studio-icon">◇</div><div class="section-kicker">PROJECT MANAGEMENT</div><h2>My Designs</h2><p>Your saved design library will appear here as the editors are added.</p><span class="coming">SAVED PROJECTS — COMING NEXT</span></article></div><div class="notice"><strong>Early access workspace</strong><span>Account sign-in is live once Supabase is configured. The design editors are the next build milestone.</span></div></main><script src="dashboard.js"></script></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXORA Studio | Design Workspace</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { margin:0; background:#090d18; color:#fff; font-family:Arial,sans-serif; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:18px 5%; background:#10182a; border-bottom:1px solid #26334c; }
+    header h2 { color:#55c7ff; margin:0; }
+    button, select, input { padding:12px; border-radius:8px; border:1px solid #34435e; background:#17233a; color:white; }
+    button { cursor:pointer; }
+    button:hover { background:#17618a; }
+    main { max-width:1200px; margin:auto; padding:30px 20px; }
+    .tabs { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:25px; }
+    .workspace { display:grid; grid-template-columns:300px 1fr; gap:22px; }
+    .panel,.preview { background:#111a2c; border:1px solid #263650; border-radius:14px; padding:22px; }
+    .panel label { display:block; margin:17px 0 7px; color:#a9bdd7; }
+    .panel input,.panel select { width:100%; box-sizing:border-box; }
+    .preview { min-height:470px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .preview h2 { color:#55c7ff; }
+    #designPreview { width:min(100%,600px); }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+    .primary { background:#087eb6; border:0; }
+    .muted { color:#a9bdd7; font-size:13px; }
+    @media(max-width:750px) { .workspace { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<header>
+  <h2>NEXORA STUDIO</h2>
+  <div>
+    <span id="userEmail" class="muted"></span>
+    <button id="logoutBtn">Log out</button>
+  </div>
+</header>
+
+<main>
+  <h1>Design Workspace</h1>
+  <p class="muted">Create custom uniforms and vehicle liveries for your ERLC department.</p>
+
+  <div class="tabs">
+    <button onclick="setMode('uniform')">Uniform Designer</button>
+    <button onclick="setMode('vehicle')">Vehicle Livery Designer</button>
+  </div>
+
+  <div class="workspace">
+    <section class="panel">
+      <h2>Design Settings</h2>
+
+      <label>Department</label>
+      <select id="department">
+        <option>Police Department</option>
+        <option>Sheriff's Office</option>
+        <option>Fire Department</option>
+        <option>EMS</option>
+        <option>State Patrol</option>
+      </select>
+
+      <label>Primary color</label>
+      <input type="color" id="primaryColor" value="#173c70">
+
+      <label>Secondary color</label>
+      <input type="color" id="secondaryColor" value="#ffffff">
+
+      <label>Department text</label>
+      <input id="customText" maxlength="28" value="POLICE">
+
+      <label>Badge / unit number</label>
+      <input id="unitNumber" maxlength="12" value="UNIT 01">
+
+      <div class="actions">
+        <button class="primary" onclick="updatePreview()">Update Preview</button>
+        <button onclick="saveDesign()">Save Design</button>
+        <button onclick="exportDesign()">Export SVG</button>
+      </div>
+      <p class="muted" id="status">Your design is ready to customize.</p>
+    </section>
+
+    <section class="preview">
+      <h2 id="previewTitle">Uniform Preview</h2>
+      <svg id="designPreview" viewBox="0 0 600 430" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="430" rx="18" fill="#0b1322"/>
+        <path id="shirt" d="M205 90 L270 55 L330 55 L395 90 L465 145 L420 205 L375 175 L375 365 L225 365 L225 175 L180 205 L135 145 Z" fill="#173c70" stroke="#ffffff" stroke-width="4"/>
+        <path d="M270 55 L300 110 L330 55" fill="none" stroke="#ffffff" stroke-width="5"/>
+        <path d="M300 110 L300 365" stroke="#ffffff" stroke-width="3"/>
+        <rect x="238" y="180" width="55" height="45" rx="5" fill="#ffffff"/>
+        <rect x="307" y="180" width="55" height="45" rx="5" fill="#ffffff"/>
+        <text id="previewDepartment" x="300" y="285" text-anchor="middle" fill="#ffffff" font-size="25" font-weight="bold">POLICE</text>
+        <text id="previewUnit" x="300" y="325" text-anchor="middle" fill="#ffffff" font-size="17">UNIT 01</text>
+      </svg>
+      <p class="muted">Preview your design before exporting it.</p>
+    </section>
+  </div>
+</main>
+
+<script>
+let currentMode = "uniform";
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById("previewTitle").textContent =
+    mode === "uniform" ? "Uniform Preview" : "Vehicle Livery Preview";
+  updatePreview();
+}
+
+function updatePreview() {
+  const primary = document.getElementById("primaryColor").value;
+  const secondary = document.getElementById("secondaryColor").value;
+  const department = document.getElementById("department").value;
+  const customText = document.getElementById("customText").value || department;
+  const unit = document.getElementById("unitNumber").value;
+
+  const svg = document.getElementById("designPreview");
+
+  if (currentMode === "uniform") {
+    svg.innerHTML = `
+      <rect width="600" height="430" rx="18" fill="#0b1322"/>
+      <path d="M205 90 L270 55 L330 55 L395 90 L465 145 L420 205 L375 175 L375 365 L225 365 L225 175 L180 205 L135 145 Z"
+      fill="${primary}" stroke="${secondary}" stroke-width="4"/>
+      <path d="M270 55 L300 110 L330 55" fill="none" stroke="${secondary}" stroke-width="5"/>
+      <path d="M300 110 L300 365" stroke="${secondary}" stroke-width="3"/>
+      <rect x="238" y="180" width="55" height="45" rx="5" fill="${secondary}"/>
+      <rect x="307" y="180" width="55" height="45" rx="5" fill="${secondary}"/>
+      <text x="300" y="285" text-anchor="middle" fill="${secondary}" font-size="25" font-weight="bold">${escapeText(customText)}</text>
+      <text x="300" y="325" text-anchor="middle" fill="${secondary}" font-size="17">${escapeText(unit)}</text>`;
+  } else {
+    svg.innerHTML = `
+      <rect width="600" height="430" rx="18" fill="#0b1322"/>
+      <path d="M95 270 L130 205 L205 185 L260 120 L420 120 L470 195 L515 225 L530 290 L490 320 L110 320 Z"
+      fill="${primary}" stroke="${secondary}" stroke-width="5"/>
+      <path d="M225 185 L275 135 L400 135 L440 190 Z" fill="${secondary}"/>
+      <path d="M95 270 L530 270" stroke="${secondary}" stroke-width="8"/>
+      <circle cx="190" cy="315" r="35" fill="#111" stroke="${secondary}" stroke-width="7"/>
+      <circle cx="440" cy="315" r="35" fill="#111" stroke="${secondary}" stroke-width="7"/>
+      <text x="315" y="250" text-anchor="middle" fill="${secondary}" font-size="23" font-weight="bold">${escapeText(customText)}</text>
+      <text x="315" y="292" text-anchor="middle" fill="${secondary}" font-size="17">${escapeText(unit)}</text>`;
+  }
+
+  document.getElementById("status").textContent = "Preview updated!";
+}
+
+function escapeText(value) {
+  return String(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&apos;"
+  })[c]);
+}
+
+function saveDesign() {
+  const data = {
+    mode: currentMode,
+    department: document.getElementById("department").value,
+    primary: document.getElementById("primaryColor").value,
+    secondary: document.getElementById("secondaryColor").value,
+    text: document.getElementById("customText").value,
+    unit: document.getElementById("unitNumber").value,
+    svg: document.getElementById("designPreview").innerHTML
+  };
+  const saved = JSON.parse(localStorage.getItem("nexoraDesigns") || "[]");
+  saved.push(data);
+  localStorage.setItem("nexoraDesigns", JSON.stringify(saved));
+  document.getElementById("status").textContent = "Design saved in this browser!";
+}
+
+function exportDesign() {
+  const svg = document.getElementById("designPreview").outerHTML;
+  const blob = new Blob([svg], {type:"image/svg+xml"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "nexora-design.svg";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+updatePreview();
+</script>
+
+<script type="module" src="dashboard.js"></script>
+</body>
+</html>
