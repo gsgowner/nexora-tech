@@ -154,17 +154,56 @@ button.action{
 </main>
 </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-function showSection(id){
- document.querySelectorAll("main section").forEach(section=>{
-  section.hidden=true;
- });
- document.getElementById(id).hidden=false;
+const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+const SUPABASE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function protectOwnerDashboard() {
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if (error || !data.user) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  const { data: profile, error: profileError } =
+    await supabaseClient
+      .from("profiles")
+      .select("role")
+      .eq("id", data.user.id)
+      .single();
+
+  if (profileError || !profile || profile.role !== "Owner") {
+    alert("Access denied. Owner permission required.");
+    window.location.replace("dashboard.html");
+    return;
+  }
 }
 
-function logout(){
- window.location.href="login.html";
+protectOwnerDashboard();
+
+function showSection(id) {
+  document.querySelectorAll("main section").forEach(section => {
+    section.hidden = true;
+  });
+
+  document.getElementById(id).hidden = false;
 }
+
+async function logout() {
+  await supabaseClient.auth.signOut();
+  window.location.replace("login.html");
+}
+</script>
+
 </script>
 
 </body>
