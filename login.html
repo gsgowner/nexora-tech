@@ -3,139 +3,76 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXORA TECH | Member Login</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXORA TECH | Login</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#080b18;
+  color:white;
+  font-family:Arial,sans-serif;
 }
 
-body {
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: #ffffff;
-  background:
-    radial-gradient(circle at top left, #22205a, transparent 45%),
-    linear-gradient(135deg, #080b17, #10172b, #080b17);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+.login-box{
+  width:90%;
+  max-width:420px;
+  background:#12182b;
+  border:1px solid #6d4aff;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 0 30px rgba(109,74,255,.15);
 }
 
-.login-container {
-  width: 100%;
-  max-width: 430px;
-  background: rgba(14, 19, 38, 0.96);
-  border: 1px solid #313c65;
-  border-radius: 18px;
-  padding: 38px;
-  box-shadow: 0 0 45px rgba(124, 58, 237, 0.15);
+h1{
+  text-align:center;
+  color:#a78bfa;
 }
 
-.logo {
-  text-align: center;
-  font-size: 29px;
-  font-weight: 800;
-  letter-spacing: 4px;
-  color: #a78bfa;
+.subtitle{
+  text-align:center;
+  color:#aab1c9;
+  margin-bottom:25px;
 }
 
-.tagline {
-  text-align: center;
-  color: #94a3b8;
-  margin-top: 10px;
-  font-size: 13px;
+input{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  background:#090e20;
+  color:white;
+  border:1px solid #303957;
+  border-radius:8px;
 }
 
-.portal-title {
-  text-align: center;
-  margin-top: 35px;
-  font-size: 23px;
+button{
+  width:100%;
+  padding:14px;
+  background:#7654ff;
+  color:white;
+  border:0;
+  border-radius:8px;
+  margin-top:15px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.portal-description {
-  text-align: center;
-  color: #94a3b8;
-  font-size: 14px;
-  margin-top: 10px;
-  margin-bottom: 25px;
+button:disabled{
+  opacity:.6;
+  cursor:wait;
 }
 
-label {
-  display: block;
-  margin: 18px 0 8px;
-  font-size: 14px;
-  color: #dbe4f3;
-}
-
-input {
-  width: 100%;
-  padding: 14px;
-  background: #090e1d;
-  color: white;
-  border: 1px solid #374151;
-  border-radius: 9px;
-  outline: none;
-}
-
-input:focus {
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15);
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 24px;
-  border: none;
-  border-radius: 9px;
-  color: white;
-  font-weight: bold;
-  background: linear-gradient(90deg, #6d28d9, #9333ea);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  filter: brightness(1.15);
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-.message {
-  margin-top: 16px;
-  text-align: center;
-  font-size: 13px;
-  overflow-wrap: anywhere;
-}
-
-.footer {
-  margin-top: 28px;
-  text-align: center;
-  color: #64748b;
-  font-size: 12px;
-}
-
-.back-link {
-  display: block;
-  margin-top: 20px;
-  text-align: center;
-  color: #a78bfa;
-  text-decoration: none;
-  font-size: 13px;
-}
-
-.back-link:hover {
-  text-decoration: underline;
+#message{
+  margin-top:15px;
+  text-align:center;
+  font-size:14px;
+  overflow-wrap:anywhere;
 }
 
 </style>
@@ -143,103 +80,74 @@ button:disabled {
 
 <body>
 
-<div class="login-container">
+<div class="login-box">
+<h1>NEXORA TECH</h1>
+<p class="subtitle">Secure Member Portal</p>
 
-  <div class="logo">NEXORA TECH</div>
+<form id="loginForm">
+<input
+  id="email"
+  type="email"
+  placeholder="Email address"
+  required
+>
 
-  <div class="tagline">
-    Building Smarter Discord Communities
-  </div>
+<input
+  id="password"
+  type="password"
+  placeholder="Password"
+  required
+>
 
-  <h1 class="portal-title">Member Login</h1>
+<button id="loginButton" type="submit">
+Login
+</button>
+</form>
 
-  <p class="portal-description">
-    Sign in to access your NEXORA TECH account.
-  </p>
-
-  <form id="loginForm">
-
-    <label for="email">Email Address</label>
-    <input
-      id="email"
-      type="email"
-      placeholder="Enter your email"
-      autocomplete="email"
-      required
-    >
-
-    <label for="password">Password</label>
-    <input
-      id="password"
-      type="password"
-      placeholder="Enter your password"
-      autocomplete="current-password"
-      required
-    >
-
-    <button id="loginButton" type="submit">
-      Sign In
-    </button>
-
-    <div id="message" class="message"></div>
-
-  </form>
-
-  <a class="back-link" href="index.html">
-    ← Back to NEXORA TECH
-  </a>
-
-  <div class="footer">
-    NEXORA TECH · Secure Account Access
-  </div>
-
+<div id="message"></div>
 </div>
 
-<script>
-const SUPABASE_URL = "https://nowfrggtbfwcqlobgjkh.supabase.co/rest/v1/";
-const SUPABASE_KEY = "sb_publishable_rCCqm5vJvTtt9OAKgzqLEQ_4k30UgG0";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-const supabaseClient = window.supabase.createClient(
+<script>
+const SUPABASE_URL = "PUT_YOUR_SUPABASE_URL_HERE";
+const SUPABASE_KEY = "PUT_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+const client = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
 const form = document.getElementById("loginForm");
-const message = document.getElementById("message");
 const button = document.getElementById("loginButton");
+const message = document.getElementById("message");
 
-form.addEventListener("submit", async function(event) {
+form.addEventListener("submit", async function(event){
   event.preventDefault();
 
   message.textContent = "";
   button.disabled = true;
-  button.textContent = "Authenticating...";
+  button.textContent = "Signing in...";
 
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  try {
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
+  try{
+    const {data,error} = await client.auth.signInWithPassword({
+      email:email,
+      password:password
+    });
 
-    if (error) {
-      message.textContent = "Login failed. Check your email and password.";
-      return;
-    }
+    if(error) throw error;
 
-    message.style.color = "#86efac";
-    message.textContent = "Login successful!";
+    message.textContent = "Login successful! Redirecting...";
 
     window.location.href = "dashboard.html";
 
-  } catch (err) {
-    message.textContent = "Unable to connect. Please try again.";
-  } finally {
+  }catch(error){
+    message.textContent = error.message;
     button.disabled = false;
-    button.textContent = "Sign In";
+    button.textContent = "Login";
   }
 });
 </script>
