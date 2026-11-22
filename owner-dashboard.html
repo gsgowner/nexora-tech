@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA TECH | Owner Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#080b18;
+ color:white;
+}
+header{
+ padding:20px;
+ background:#11162a;
+ border-bottom:1px solid #6d4aff;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:12px;
+}
+.brand{
+ font-size:24px;
+ font-weight:bold;
+ color:#a78bfa;
+}
+.container{display:flex;min-height:100vh}
+.sidebar{
+ width:230px;
+ background:#101528;
+ padding:20px;
+}
+.sidebar button{
+ display:block;
+ width:100%;
+ margin-bottom:10px;
+ padding:12px;
+ background:#191f36;
+ border:1px solid #333b5c;
+ color:white;
+ border-radius:8px;
+ cursor:pointer;
+ text-align:left;
+}
+.sidebar button:hover{background:#4b35a8}
+.main{flex:1;padding:25px}
+.cards{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+ gap:15px;
+}
+.card{
+ background:#141a30;
+ border:1px solid #303957;
+ padding:20px;
+ border-radius:14px;
+}
+.card h3{color:#a78bfa}
+.panel{
+ margin-top:20px;
+ background:#141a30;
+ padding:20px;
+ border-radius:14px;
+ border:1px solid #303957;
+}
+button.action{
+ background:#7654ff;
+ color:white;
+ border:none;
+ padding:10px 15px;
+ border-radius:8px;
+ cursor:pointer;
+}
+@media(max-width:700px){
+ .container{display:block}
+ .sidebar{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="brand">NEXORA TECH | OWNER</div>
+ <button class="action" onclick="logout()">Logout</button>
+</header>
+
+<div class="container">
+
+<aside class="sidebar">
+ <button onclick="showSection('overview')">📊 Overview</button>
+ <button onclick="showSection('members')">👥 Members</button>
+ <button onclick="showSection('admins')">🛡️ Admins</button>
+ <button onclick="showSection('requests')">📋 Requests</button>
+ <button onclick="showSection('revenue')">💰 Revenue</button>
+ <button onclick="showSection('settings')">⚙️ Settings</button>
+</aside>
+
+<main class="main">
+<section id="overview">
+<h1>Owner Overview</h1>
+<div class="cards">
+<div class="card"><h3>Members</h3><p id="membersCount">0</p></div>
+<div class="card"><h3>Admins</h3><p id="adminsCount">0</p></div>
+<div class="card"><h3>Requests</h3><p>Coming soon</p></div>
+<div class="card"><h3>Revenue</h3><p>$0.00</p></div>
+</div>
+
+<div class="panel">
+<h2>Welcome to NEXORA TECH</h2>
+<p>Your company control panel is ready for development.</p>
+</div>
+</section>
+
+<section id="members" hidden>
+<h1>Members</h1>
+<div class="panel">
+<p>Member management will be connected to Supabase next.</p>
+</div>
+</section>
+
+<section id="admins" hidden>
+<h1>Admin Management</h1>
+<div class="panel">
+<p>Admin management will be connected next.</p>
+</div>
+</section>
+
+<section id="requests" hidden>
+<h1>Customer Requests</h1>
+<div class="panel">
+<p>Customer request management will be connected next.</p>
+</div>
+</section>
+
+<section id="revenue" hidden>
+<h1>Revenue Tracker</h1>
+<div class="panel">
+<p>Revenue tracking will be connected next.</p>
+</div>
+</section>
+
+<section id="settings" hidden>
+<h1>Owner Settings</h1>
+<div class="panel">
+<p>NEXORA TECH system settings.</p>
+</div>
+</section>
+</main>
+</div>
+
+<script>
+function showSection(id){
+ document.querySelectorAll("main section").forEach(section=>{
+  section.hidden=true;
+ });
+ document.getElementById(id).hidden=false;
+}
+
+function logout(){
+ window.location.href="login.html";
+}
+</script>
+
+</body>
+</html>
