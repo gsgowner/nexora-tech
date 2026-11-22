@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXORA TECH | Admin Panel</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080b16;color:white;font-family:Arial,sans-serif}
+header{padding:25px 6%;background:#101528;border-bottom:1px solid #292e49}
+header span{color:#8875ff}
+.layout{display:flex;min-height:90vh}
+aside{width:220px;padding:25px;background:#101528}
+aside button{display:block;width:100%;text-align:left;margin-bottom:10px}
+main{padding:35px;width:100%}
+button{background:#7664ff;color:white;border:0;padding:12px 16px;border-radius:7px;cursor:pointer}
+button:hover{background:#9584ff}
+.panel{display:none}
+.panel.active{display:block}
+.stats,.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin:25px 0}
+.card{padding:23px;background:#12182b;border:1px solid #29314d;border-radius:12px}
+.card p{color:#a3abc2;margin-top:12px}
+h2{margin-bottom:15px}
+input,textarea{width:100%;padding:13px;margin:10px 0;background:#0b1020;color:white;border:1px solid #343b58;border-radius:7px}
+form{max-width:500px}
+.notice{padding:15px;background:#282044;color:#d4caff;border-radius:8px;margin:20px 0;line-height:1.6}
+.product{padding:18px;border:1px solid #29314d;border-radius:9px;margin:12px 0}
+@media(max-width:650px){.layout{display:block}aside{width:100%}aside button{display:inline-block;width:auto;margin:4px}main{padding:20px}}
+</style>
+</head>
+<body>
+<header>
+<h2>NEXORA <span>TECH</span> | ADMIN</h2>
+</header>
+<div class="layout">
+<aside>
+<button onclick="page('overview')">Overview</button>
+<button onclick="page('products')">Products</button>
+<button onclick="page('requests')">Requests</button>
+<button onclick="page('pricing')">Pricing</button>
+<button onclick="location.href='index.html'">Main Website</button>
+</aside>
+<main>
+<div id="overview" class="panel active">
+<h1>Admin Overview</h1>
+<p style="color:#9ca5bd;margin-top:10px">NEXORA TECH management preview</p>
+<div class="stats">
+<div class="card">Products<h2 id="count">4</h2></div>
+<div class="card">Customer Requests<h2>0</h2></div>
+<div class="card">Orders<h2>0</h2></div>
+<div class="card">Monthly Revenue<h2>$0</h2></div>
+</div>
+<div class="notice">Welcome to your management dashboard. This is a demonstration interface, not a secure live admin system.</div>
+</div>
+
+<div id="products" class="panel">
+<h1>Product Management</h1>
+<p style="color:#9ca5bd;margin:10px 0">Add products to this local demonstration.</p>
+<form id="productForm">
+<input id="productName" placeholder="Product name" required>
+<input id="productPrice" type="number" min="0" placeholder="Price in USD" required>
+<textarea id="productDescription" placeholder="Product description" required></textarea>
+<button type="submit">Add Product</button>
+</form>
+<div id="productList"></div>
+</div>
+
+<div id="requests" class="panel">
+<h1>Customer Requests</h1>
+<div class="notice">No live customer requests are connected yet. A backend will be needed to receive and manage real submissions.</div>
+</div>
+
+<div id="pricing" class="panel">
+<h1>Service Pricing</h1>
+<div class="cards">
+<div class="card"><h2>Starter</h2><h2>$15/mo</h2><p>Basic maintenance and support.</p></div>
+<div class="card"><h2>Professional</h2><h2>$29/mo</h2><p>Enhanced support and updates.</p></div>
+<div class="card"><h2>Enterprise</h2><h2>$49/mo</h2><p>Priority support and advanced services.</p></div>
+</div>
+</div>
+</main>
+</div>
+<script>
+function page(id){
+document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+let products=[
+{name:'Custom Discord Bot',price:149},
+{name:'Ticket System',price:49},
+{name:'ERLC Department System',price:199},
+{name:'Security System',price:99}
+];
+function render(){
+document.getElementById('count').textContent=products.length;
+document.getElementById('productList').innerHTML=products.map(p=>
+'<div class="product"><strong>'+escapeHTML(p.name)+'</strong><p>$'+p.price+'</p></div>'
+).join('');
+}
+function escapeHTML(s){
+return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+document.getElementById('productForm').addEventListener('submit',function(e){
+e.preventDefault();
+products.push({
+name:document.getElementById('productName').value,
+price:Number(document.getElementById('productPrice').value)
+});
+render();
+this.reset();
+});
+render();
+</script>
+</body>
+</html>
