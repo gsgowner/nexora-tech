@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXORA TECH | Customer Portal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080b16;color:white;font-family:Arial,sans-serif}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#101528;padding:28px 18px;border-right:1px solid #242b45}
+.logo{font-size:22px;font-weight:900;margin-bottom:45px}
+.logo span{color:#8875ff}
+.nav{display:block;padding:14px;margin:7px 0;color:#aeb5ce;text-decoration:none;border-radius:8px;cursor:pointer}
+.nav:hover,.nav.active{background:#29264e;color:white}
+.main{padding:35px;width:100%;max-width:1400px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:35px;gap:15px}
+.top p,.muted{color:#929bb5;margin-top:8px}
+.demo{background:#262148;color:#c7bcff;padding:10px 15px;border-radius:8px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-bottom:35px}
+.card{background:#12182b;border:1px solid #29314d;border-radius:13px;padding:22px}
+.card small{color:#929bb5}
+.card h2{font-size:29px;margin-top:13px}
+.section{display:none}
+.section.active{display:block}
+.section h2{margin-bottom:10px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:25px}
+.product{background:#12182b;border:1px solid #29314d;padding:25px;border-radius:13px}
+.product h3{margin:12px 0}
+.product p{color:#a6aec5;line-height:1.6;font-size:14px}
+button{background:#7664ff;color:white;border:0;padding:11px 17px;border-radius:7px;cursor:pointer;margin-top:18px}
+button:hover{background:#927fff}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+td,th{text-align:left;padding:15px;border-bottom:1px solid #29314d}
+th{color:#a9a0ff}
+input,textarea,select{width:100%;padding:13px;margin:10px 0;background:#0b1020;color:white;border:1px solid #343b58;border-radius:7px}
+form{max-width:550px;margin-top:25px}
+.notice{color:#b7addf;background:#211d3d;padding:16px;border-radius:8px;margin-top:20px;line-height:1.6}
+@media(max-width:700px){.layout{display:block}.sidebar{width:100%;padding:15px}.logo{margin-bottom:15px}.nav{display:inline-block;padding:9px;font-size:13px}.main{padding:20px}.top{align-items:flex-start;flex-direction:column}table{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+<div class="logo">NEXORA <span>TECH</span></div>
+<a class="nav active" data-page="overview">⌂ Overview</a>
+<a class="nav" data-page="products">▣ Products</a>
+<a class="nav" data-page="orders">▤ Orders</a>
+<a class="nav" data-page="support">✉ Support</a>
+<a class="nav" data-page="subscriptions">♧ Subscriptions</a>
+<a class="nav" href="index.html">← Main Website</a>
+</aside>
+
+<main class="main">
+<div class="top">
+<div>
+<h1 id="heading">Customer Dashboard</h1>
+<p>Welcome to the NEXORA TECH customer portal.</p>
+</div>
+<div class="demo">DEMO PORTAL • PREVIEW</div>
+</div>
+
+<div class="section active" id="overview">
+<div class="stats">
+<div class="card"><small>Available Products</small><h2>4</h2></div>
+<div class="card"><small>My Orders</small><h2>0</h2></div>
+<div class="card"><small>Open Tickets</small><h2>0</h2></div>
+<div class="card"><small>Active Plans</small><h2>0</h2></div>
+</div>
+<div class="card">
+<h2>Welcome to NEXORA TECH</h2>
+<p class="muted">Explore our Discord technology solutions and request a custom system for your ERLC community.</p>
+<button onclick="showPage('products')">Explore Products</button>
+</div>
+<div class="notice">This is a demonstration dashboard. Customer accounts, real orders, payments and private records are not connected yet.</div>
+</div>
+
+<div class="section" id="products">
+<h2>Our Products</h2>
+<p class="muted">Technology for professional ERLC communities.</p>
+<div class="products">
+<div class="product"><div>🤖</div><h3>Custom Discord Bot</h3><p>Custom commands, moderation and server automation.</p><button onclick="requestProduct('Custom Discord Bot')">Request Information</button></div>
+<div class="product"><div>🎫</div><h3>Ticket System</h3><p>Staff support, applications and organized tickets.</p><button onclick="requestProduct('Ticket System')">Request Information</button></div>
+<div class="product"><div>🚔</div><h3>ERLC Department System</h3><p>Applications, promotions, departments and staff management.</p><button onclick="requestProduct('ERLC Department System')">Request Information</button></div>
+<div class="product"><div>🛡️</div><h3>Security System</h3><p>Moderation, audit logs and server protection.</p><button onclick="requestProduct('Security System')">Request Information</button></div>
+</div>
+</div>
+
+<div class="section" id="orders">
+<h2>My Orders</h2>
+<p class="muted">Your product orders will appear here once customer accounts and order management are connected.</p>
+<div class="card" style="margin-top:20px">No orders to display.</div>
+</div>
+
+<div class="section" id="support">
+<h2>Customer Support</h2>
+<p class="muted">Tell our team what you need.</p>
+<form id="supportForm">
+<label>Product or service</label>
+<input id="service" placeholder="What do you need help with?" required>
+<label>Your Discord username</label>
+<input placeholder="Your Discord username" required>
+<label>Message</label>
+<textarea rows="5" placeholder="Describe your request..." required></textarea>
+<button type="submit">Prepare Support Request</button>
+</form>
+<p class="muted" id="formResult"></p>
+</div>
+
+<div class="section" id="subscriptions">
+<h2>Subscriptions</h2>
+<p class="muted">Our proposed service plans.</p>
+<div class="products">
+<div class="product"><h3>Starter</h3><h2>$15/mo</h2><p>Basic maintenance and support.</p></div>
+<div class="product"><h3>Professional</h3><h2>$29/mo</h2><p>Enhanced support and bot updates.</p></div>
+<div class="product"><h3>Enterprise</h3><h2>$49/mo</h2><p>Priority support and advanced services.</p></div>
+</div>
+<p class="muted" style="margin-top:20px">Proposed pricing only. No subscriptions or payments are active.</p>
+</div>
+</main>
+</div>
+
+<script>
+function showPage(page){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.querySelectorAll('.nav[data-page]').forEach(n=>n.classList.remove('active'));
+document.getElementById(page).classList.add('active');
+document.querySelector('[data-page="'+page+'"]').classList.add('active');
+const names={overview:'Customer Dashboard',products:'Our Products',orders:'My Orders',support:'Customer Support',subscriptions:'Subscriptions'};
+document.getElementById('heading').textContent=names[page];
+}
+document.querySelectorAll('.nav[data-page]').forEach(link=>{
+link.addEventListener('click',()=>showPage(link.dataset.page));
+});
+function requestProduct(name){
+document.getElementById('service').value=name;
+showPage('support');
+}
+document.getElementById('supportForm').addEventListener('submit',function(e){
+e.preventDefault();
+document.getElementById('formResult').textContent='Your request is ready for submission, but support delivery is not connected yet. Please contact NEXORA TECH through its official contact channel.';
+});
+</script>
+</body>
+</html>
