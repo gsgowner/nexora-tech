@@ -119,8 +119,20 @@ button.action{
 
 <section id="members" hidden>
 <h1>Members</h1>
+
 <div class="panel">
-<p>Member management will be connected to Supabase next.</p>
+<p id="memberStatus">Loading members...</p>
+
+<table style="width:100%;border-collapse:collapse">
+<thead>
+<tr>
+<th style="text-align:left;padding:12px">Email</th>
+<th style="text-align:left;padding:12px">Role</th>
+</tr>
+</thead>
+
+<tbody id="memberTable"></tbody>
+</table>
 </div>
 </section>
 
