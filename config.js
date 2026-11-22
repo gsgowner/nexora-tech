@@ -5,6 +5,6 @@
  Never put a Supabase secret/service_role key here.
 */
 window.NEXORA_CONFIG = {
-  supabaseUrl: "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE",
-  supabasePublishableKey: "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE"
+  supabaseUrl: "https://nowfrggtbfwcqlobgjkh.supabase.co",
+  supabasePublishableKey: "sb_publishable_rCCqm5vJvTtt9OAKgzqLEQ_4k30UgG0"
 };
