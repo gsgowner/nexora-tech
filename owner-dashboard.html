@@ -263,6 +263,28 @@ async function loadMembers() {
 }
 
 loadMembers();
+
+
+ async function loadDashboardStats() {
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("role");
+
+  if (error) {
+    document.getElementById("membersCount").textContent = "Error";
+    document.getElementById("adminsCount").textContent = "Error";
+    console.error("Stats error:", error.message);
+    return;
+  }
+
+  const totalAccounts = data.length;
+  const adminCount = data.filter(user => user.role === "Admin").length;
+
+  document.getElementById("membersCount").textContent = totalAccounts;
+  document.getElementById("adminsCount").textContent = adminCount;
+}
+
+loadDashboardStats();
  
 }
 </script>
