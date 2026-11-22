@@ -213,6 +213,51 @@ function showSection(id) {
 async function logout() {
   await supabaseClient.auth.signOut();
   window.location.replace("login.html");
+
+async function loadMembers() {
+  const status = document.getElementById("memberStatus");
+  const table = document.getElementById("memberTable");
+
+  status.textContent = "Loading members...";
+
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("email, role")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    status.textContent = "Unable to load members: " + error.message;
+    return;
+  }
+
+  table.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    status.textContent = "No members found.";
+    return;
+  }
+
+  data.forEach(member => {
+    const row = document.createElement("tr");
+
+    const emailCell = document.createElement("td");
+    emailCell.textContent = member.email || "No email";
+    emailCell.style.padding = "12px";
+
+    const roleCell = document.createElement("td");
+    roleCell.textContent = member.role;
+    roleCell.style.padding = "12px";
+
+    row.appendChild(emailCell);
+    row.appendChild(roleCell);
+    table.appendChild(row);
+  });
+
+  status.textContent = "Total accounts: " + data.length;
+}
+
+loadMembers();
+ 
 }
 </script>
 
